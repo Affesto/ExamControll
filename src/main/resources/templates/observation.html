@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script  type="module" src="/script.js"></script>
+
+    <link rel="stylesheet" href="/css/all.css"/>
+    <link rel="stylesheet" href="/css/header/header.css" />
+    <link rel="stylesheet" href="/css/main/main.css" />
+    <link rel="stylesheet" href="/css/pageable/pageable.css" />
+    <link rel="stylesheet" href="/css/chips.css" />
+
+    <title>ГИА Контроль</title>
+  <body>
+    <header class="header">
+      <h2 class="header__logo">ГИА КОНТРОЛЬ</h2>
+      <div class="header__nav">
+        <button class="header__nav-button"  th:onclick="|window.location.href='/observation'|">Наблюдение</button>
+        <button class="header__nav-button" th:onclick="|window.location.href='/violations'|">Информация о нарушениях</button>
+        <button class="header__nav-button" th:onclick="|window.location.href='/report'|">Сообщить о нарушении</button>
+      </div>
+      <div class="header__authorization">
+        <button class="header__authorization-button" th:onclick="|window.location.href='/logout'|">Вход</button>
+      </div>
+    </header>
+    <div class="pageable">
+        <form class="pageable__serach" th:action="@{/observation/search}" th:object="${camera}" method="post">
+            <button class="pageable__serach-button" id="search-btn" name="search-btn" type="submit">Поиск по</button>
+            <input class="pageable__serach-input" placeholder="Город" th:field="*{city}"/>
+            <input class="pageable__serach-input" placeholder="Школа" th:field="*{school}"/>
+            <input class="pageable__serach-input" placeholder="Аудитория" th:field="*{auditorium}"/>
+          </form>
+          <div class="pageable__buttons">
+            <button class="pageable__buttons-button"></button>
+            <button class="pageable__buttons-button"></button>
+            <button class="pageable__buttons-button"></button>
+          </div>
+    </div>
+    <main class="main">
+      <tr th:each="cam : ${cams}">
+      <div class="main__content" id="main">
+        <video class="main__content-video" autoplay th:id="${cam.idCam}">
+          Video
+        </video>
+        <label class="main__content-info">Город:  </label>
+        <label class="main__content-info" th:text="${cam.city}">_</label>
+        <label class="main__content-info">Школа номер:  </label>
+        <label class="main__content-info" th:text="${cam.school}">_</label>
+        <label class="main__content-info">Аудитория номер:  </label>
+        <label class="main__content-info" th:text="${cam.auditorium}">_</label>
+        <label class="main__content-info">Камера:  </label>
+        <label class="main__content-info" th:text="${cam.numberCamera}">_</label>
+      </div>
+      </tr>
+    </main>
+    <div class="chips" id="chips"></div>
+    <button class="get__chips" id="get__сhips" name="get__сhips" type="submit">Информация о возможных нарушениях</button>
+  </body>
+</html>
